@@ -251,7 +251,7 @@
                             <h4>{{__('admin.Total Earning')}}</h4>
                           </div>
                           <div class="card-body">
-                            {{ $setting->currency_icon }}{{ round($totalEarning,2) }}
+                            {{ $setting->currency_icon }}{{ $totalEarning }}
                           </div>
                         </div>
                       </div>

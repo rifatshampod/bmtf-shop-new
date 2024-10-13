@@ -28,8 +28,8 @@ class DashboardController extends Controller
 
         $todayTotalOrder = $todayOrders->count();
         $todayPendingOrder = $todayOrders->where('order_status',0)->count();
-        $todayEarning = round($todayOrders->sum('amount_real_currency'),2);
-        $todayPendingEarning = round($todayOrders->where('payment_status',0)->sum('amount_real_currency'),2);
+        $todayEarning = round($todayOrders->sum('total_amount'),2);
+        $todayPendingEarning = round($todayOrders->where('payment_status',0)->sum('total_amount'),2);
         $todayProductSale = $todayOrders->where('order_status',3)->sum('product_qty');
 
 
@@ -38,18 +38,18 @@ class DashboardController extends Controller
         $totalPendingOrder = $totalOrders->where('order_status',0)->count();
         $totalDeclinedOrder = $totalOrders->where('order_status',4)->count();
         $totalCompleteOrder = $totalOrders->where('order_status',3)->count();
-        $totalEarning = round($totalOrders->sum('amount_real_currency'),2);
+        $totalEarning = $totalOrders->sum('total_amount');
         $totalProductSale = $totalOrders->where('order_status',3)->sum('product_qty');
 
 
 
         $monthlyOrders = Order::with('user','orderProducts','orderAddress')->orderBy('id','desc')->whereMonth('created_at', now()->month)->get();
-        $thisMonthEarning = round($monthlyOrders->sum('amount_real_currency'),2);
+        $thisMonthEarning = round($monthlyOrders->sum('total_amount'),2);
         $thisMonthProductSale = $monthlyOrders->where('order_status',3)->sum('product_qty');
 
 
         $yearlyOrders = Order::with('user','orderProducts','orderAddress')->orderBy('id','desc')->whereYear('created_at', now()->year)->get();
-        $thisYearEarning = round($yearlyOrders->sum('amount_real_currency'),2);
+        $thisYearEarning = round($yearlyOrders->sum('total_amount'),2);
         $thisYearProductSale = $yearlyOrders->where('order_status',3)->sum('product_qty');
 
         $setting = Setting::first();
